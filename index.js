@@ -42,18 +42,11 @@ const occupations = [
  *
  */
 function Update () {
-    const root = document.querySelector("#root");
+    //const root = document.querySelector("#root");
 
-    const table = document.createElement("table");
-    const thead = document.createElement("thead");
-    const headerRow = document.createElement("tr");
+    const table = document.querySelector("table");
 
-    
-
-    thead.append(headerRow);
-    table.append(thead);
-
-    const tbody = document.createElement("tbody");
+    const tbody = document.querySelector("tbody");
 
     freelancer.forEach((freelancer) => {
     const dataRow = document.createElement("tr");
@@ -65,11 +58,24 @@ function Update () {
     }
     tbody.append(dataRow);
     });
-    table.append(tbody);
+    table.replaceChildren(tbody);
 
-    root.append(table);
+    const Avg = averageStartingPrice();
+    const p = document.querySelector("p");
+    p.textContent = `The average starting price is $${Avg.toFixed(2)} `;
+
+    }
+
+    function averageStartingPrice() {
+      const totalAmount = freelancer.reduce(
+        (acc, curr) => acc + curr.Price,
+        0
+      );
+
+      return (totalAmount / freelancer.length);
+      
+    }
     
-}
 function init(){
     const root = document.querySelector("#root");
 
@@ -100,19 +106,10 @@ function init(){
 
     const tbody = document.createElement("tbody");
 
-    freelancer.forEach((freelancer) => {
-    const dataRow = document.createElement("tr");
-
-    for (const key in freelancer) {
-      const th = document.createElement("th");
-      th.textContent = freelancer[key];
-      dataRow.append(th);
-    }
-    tbody.append(dataRow);
-    });
     table.append(tbody);
 
     root.append(table);
+    Update();
 }
 
 /**
@@ -162,7 +159,7 @@ function sum(arr) {
    * @param {Array} arr
    * @returns Number
    */
-  function avg(totalPrice, arr) {
+  function asp(totalPrice, arr) {
     return totalPrice / arr.length;
   }
   
@@ -201,3 +198,4 @@ function sum(arr) {
 
   //call init function
   init();
+  addFreelancer();
